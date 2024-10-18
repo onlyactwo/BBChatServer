@@ -7,6 +7,7 @@ import com.lzx.BBChat.Server.Server;
 import com.lzx.BBChat.ServerService.ClientLoginRequestHandler.ClientLoginRequestHandler;
 import com.lzx.BBChat.ServerService.ClientRegistrationRequestHandler.ClientRegistrationRequestHandler;
 import com.lzx.BBChat.ServerService.LogPrinter.LogPrinter;
+import com.lzx.BBChat.ServerService.UserPrivateChatRequestHandler.UserPrivateChatRequestHandler;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -45,13 +46,24 @@ public class ClientHandler implements Runnable {
                     //该消息是用户请求登录
                     LogPrinter.printLog(clientSocket.getInetAddress().getHostAddress() + " 正在请求登录 ");
                     ClientLoginRequestHandler.handleClientLoginRequest(server, clientSocket, oos, ois);
+                    //处理完用户的登录请求 -》继续响应其他请求-》等待客户端发送Message
 
                 } else if (message.getMesType().equals(MessageType.MESSAGE_REGISTRATION_REQUEST)) {
                     //该消息是用户注册请求
                     LogPrinter.printLog(clientSocket.getInetAddress().getHostAddress() + " 正在请求注册 ");
                     ClientRegistrationRequestHandler.handleClientRegistrationRequest(server,clientSocket,oos,ois);
+                    //处理完用户的注册请求 -》继续响应其他请求-》等待客户端发送Message
 
-                } else if (message.getMesType().equals(MessageType.MESSAGE_EXIT)) {
+                } else if(message.getMesType().equals(MessageType.MESSAGE_PRIVATE_CHAT_REQUEST)){
+                    //该消息是用户私聊请求
+                    UserPrivateChatRequestHandler.handleUserPrivateChatRequest(server, message.getSender(), oos,ois);
+
+
+                }else if(message.getMesType().equals(MessageType.MESSAGE_GROUP_CHAT_REQUEST)){
+                    //该消息是群聊请求
+
+
+                }else if (message.getMesType().equals(MessageType.MESSAGE_EXIT)) {
                     //该消息是用户关闭软件请求
                     //关闭流
                     oos.close();

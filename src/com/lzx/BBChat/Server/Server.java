@@ -54,6 +54,7 @@ public class Server {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             LogPrinter.printLog("数据库导入失败！");
             System.exit(1);
         }

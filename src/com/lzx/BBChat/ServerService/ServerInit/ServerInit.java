@@ -16,8 +16,8 @@ import java.util.HashMap;
  */
 public class ServerInit {
     //文件路径
-   private static final File userDatabaseFile = new File("D:\\myjavacode\\小项目\\BBChat\\BBChatServer\\src\\com\\lzx\\BBChat\\database\\userDatabase.dat");
-   private static final File managerDatabaseFile = new File("D:\\myjavacode\\小项目\\BBChat\\BBChatServer\\src\\com\\lzx\\BBChat\\database\\managerDatabase.dat");
+   private static final File userDatabaseFile = new File("D:\\myjavacode\\小项目\\BBChat\\BBChatServer\\src\\com\\lzx\\BBChat\\Database\\userDatabase.dat");
+   private static final File managerDatabaseFile = new File("D:\\myjavacode\\小项目\\BBChat\\BBChatServer\\src\\com\\lzx\\BBChat\\Database\\managerDatabase.dat");
     private static ObjectInputStream ois ;
     public static HashMap<String,String> ServerInitUserDatabase() {
         try {
@@ -34,9 +34,11 @@ public class ServerInit {
         } catch (IOException e) {
             //打印服务器日志
             LogPrinter.printLog("服务器建立IO失败，请检查本地数据库路径是否正确！");
+            e.printStackTrace();
             return null;
         } catch (ClassNotFoundException e) {
             LogPrinter.printLog("加载本地数据失败，请检查路径！");
+            e.printStackTrace();
             return null;
         }
 

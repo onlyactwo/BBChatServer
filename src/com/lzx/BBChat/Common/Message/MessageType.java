@@ -52,6 +52,18 @@ public class MessageType {
     //私聊 - 文本文件
     public static String MESSAGE_PRIVATE_CHAT_TXT = "MESSAGE_PRIVATE_CHAT_TXT";
 
+    //私聊请求
+    public static String MESSAGE_PRIVATE_CHAT_REQUEST = "MESSAGE_PRIVATE_CHAT_REQUEST";
+
+    //服务器同意私聊请求
+    public static String MESSAGE_ALLOW_PRIVATE_CHAT_REQUEST = "MESSAGE_ALLOW_PRIVATE_CHAT_REQUEST";
+
+    //群聊请求
+    public static String MESSAGE_GROUP_CHAT_REQUEST = "MESSAGE_GROUP_CHAT_REQUEST";
+
+    //服务器同意群聊请求
+    public static String MESSAGE_ALLOW_GROUP_CHAT_REQUEST = "MESSAGE_ALLOW_GROUP_CHAT_REQUEST";
+
     //群聊 - 文本文件
     public static String MESSAGE_GROUP_CHAT_TXT = "MESSAGE_GROUP_CHAT_TXT";
 
@@ -60,4 +72,14 @@ public class MessageType {
 
     //客户端请求关闭软件
     public static String MESSAGE_EXIT = "MESSAGE_EXIT";
+
+    //私聊用户不存在
+    public static String MESSAGE_PRIVATE_USER_IS_NOT_EXIST = "MESSAGE_PRIVATE_USER_IS_NOT_EXIST";
+
+    //私聊用户在线
+    public static String MESSAGE_PRIVATE_USER_ONLINE = "MESSAGE_PRIVATE_USER_ONLINE";
+
+    //私聊用户不在线
+    public static String MESSAGE_PRIVATE_USER_OFFLINE = "MESSAGE_PRIVATE_USER_OFFLINE";
+
 }

@@ -26,10 +26,24 @@ public class User implements Serializable {
     public static final String IDENTITY_NORMAL = "IDENTITY_NORMAL";
     public static final String IDENTITY_MANAGER = "IDENTITY_MANAGER";
 
-    public User(){}
+    public User() {
+    }
+
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        if (identity.equals("IDENTITY_NORMAL")) {
+            //普通用户
+            return "普通用户" + userName;
+        } else if (identity.equals("IDENTITY_MANAGER")) {
+            //管理人员
+            return "管理人员" + userName;
+        }
+        return "用户未知";
     }
 
     public String getUserName() {

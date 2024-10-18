@@ -2,8 +2,8 @@ package com.lzx.BBChat.ServerService.ServerChecker;
 
 import com.lzx.BBChat.Server.Server;
 import com.lzx.BBChat.ServerService.LogPrinter.LogPrinter;
+import com.lzx.BBChat.ServerService.ServerSaver.ServerSaver;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -16,6 +16,7 @@ public class CheckServer extends Thread {
     private final String getUserDatabase = "\\getUserDatabase";
     private final String getManagerDatabase = "\\getManagerDatabase";
     private final String getUserOnline = "\\getUserOnline";
+    private final String shutDownServer = "\\shutDownServer";
     private final String getAllOrder = "\\help";
     private HashMap<String, String> order_all = new HashMap<>();//存放所有指令
 
@@ -25,6 +26,7 @@ public class CheckServer extends Thread {
         order_all.put("获取所有普通用户信息： ", getUserDatabase + "\n");
         order_all.put("获取所有管理人员信息:  ", getManagerDatabase + "\n");
         order_all.put("获取所有在线用户信息： ", getUserOnline + "\n");
+        order_all.put("关闭服务器： ", shutDownServer + "\n");
         order_all.put("获取所有指令： ", getAllOrder + "\n");
     }
 
@@ -47,8 +49,12 @@ public class CheckServer extends Thread {
                     break;
                 case "\\getUserOnline":
                     //获取所有在线用户信息
-                    LogPrinter.printLog(server.getUserOnline().toString());
+                    LogPrinter.printLog((server.getUserOnline()).values().toString());
                     break;
+                case"\\shutDownServer":
+                    //关闭服务器 ---- 保存数据到本地 ---- userDatabase
+                    ServerSaver.saveServer(server.getUserDatabase());
+                    System.exit(1);
                 case "\\help":
                     //打印所有指令信息
                     LogPrinter.printLog(order_all.toString());
