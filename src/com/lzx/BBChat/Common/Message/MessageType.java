@@ -82,4 +82,9 @@ public class MessageType {
     //私聊用户不在线
     public static String MESSAGE_PRIVATE_USER_OFFLINE = "MESSAGE_PRIVATE_USER_OFFLINE";
 
+    //私聊退出
+    public static String MESSAGE_PRIVATE_CHAT_EXIT ="MESSAGE_PRIVATE_CHAT_EXIT";
+
+    //群聊退出
+    public static String MESSAGE_GROUP_CHAT_EXIT = "MESSAGE_GROUP_CHAT_EXIT";
 }

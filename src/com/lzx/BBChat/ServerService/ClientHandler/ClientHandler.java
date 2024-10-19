@@ -51,19 +51,19 @@ public class ClientHandler implements Runnable {
                 } else if (message.getMesType().equals(MessageType.MESSAGE_REGISTRATION_REQUEST)) {
                     //该消息是用户注册请求
                     LogPrinter.printLog(clientSocket.getInetAddress().getHostAddress() + " 正在请求注册 ");
-                    ClientRegistrationRequestHandler.handleClientRegistrationRequest(server,clientSocket,oos,ois);
+                    ClientRegistrationRequestHandler.handleClientRegistrationRequest(server, clientSocket, oos, ois);
                     //处理完用户的注册请求 -》继续响应其他请求-》等待客户端发送Message
 
-                } else if(message.getMesType().equals(MessageType.MESSAGE_PRIVATE_CHAT_REQUEST)){
+                } else if (message.getMesType().equals(MessageType.MESSAGE_PRIVATE_CHAT_REQUEST)) {
                     //该消息是用户私聊请求
-                    UserPrivateChatRequestHandler.handleUserPrivateChatRequest(server, message.getSender(), oos,ois);
+                    UserPrivateChatRequestHandler.handleUserPrivateChatRequest(server, message.getSender(), oos, ois);
+                    //处理完用户的私聊请求 -》继续响应其他请求-》等待客户端发送Message
 
-
-                }else if(message.getMesType().equals(MessageType.MESSAGE_GROUP_CHAT_REQUEST)){
+                } else if (message.getMesType().equals(MessageType.MESSAGE_GROUP_CHAT_REQUEST)) {
                     //该消息是群聊请求
 
 
-                }else if (message.getMesType().equals(MessageType.MESSAGE_EXIT)) {
+                } else if (message.getMesType().equals(MessageType.MESSAGE_EXIT)) {
                     //该消息是用户关闭软件请求
                     //关闭流
                     oos.close();

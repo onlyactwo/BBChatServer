@@ -5,6 +5,7 @@ import com.lzx.BBChat.Common.Message.MessageType;
 import com.lzx.BBChat.Common.User.User;
 import com.lzx.BBChat.Common.Utils.Utils;
 import com.lzx.BBChat.Server.Server;
+import com.lzx.BBChat.ServerService.UserOnlinePrivateChatHandler.UserOnlinePrivateChatHandler;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -40,7 +41,10 @@ public class UserPrivateChatRequestHandler {
             oos.flush();
 
             //接收用户发来的targetUser，对该目标用户进行验证
+            //该用户对象不包含Socket、identity、oos、ois等信息
+            //只有Server.Online里面才有以上信息
             User targetUser = (User) ois.readObject();
+
             if(!server.getUserDatabase().containsKey(targetUser.getUserName())){
                 //该用户不存在,返回服务器验证结果
                 //创建 该用户不存在结果 Message
@@ -48,6 +52,8 @@ public class UserPrivateChatRequestHandler {
                 //发送该Message
                 oos.writeObject(message_private_user_is_not_exist);
                 oos.flush();
+                //服务器返回等待响应状态
+                return;
             }else if(server.getUserOnline().containsKey(targetUser.getUserName())){
                 //用户在线
                 //创建 该用户在线结果 Message
@@ -57,7 +63,10 @@ public class UserPrivateChatRequestHandler {
                 oos.flush();
 
                 //开启在线聊天功能
-                //待写。。。
+                //传递参数，包括server（用于得到Online），userName(发送者),targetName（接收者，用这个名字在Online中去得到User）
+                UserOnlinePrivateChatHandler.handleUserOnlinePrivateChat(server,userName,targetUser.getUserName(),ois);
+                //调用结束聊天功能以后，服务器返回等待响应状态,客户端返回到选择功能界面
+                return;
             }else {
                 //用户离线
                 //创建 该用户离线结果 Message
