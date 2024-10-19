@@ -7,6 +7,8 @@ import com.lzx.BBChat.Server.Server;
 import com.lzx.BBChat.ServerService.ClientLoginRequestHandler.ClientLoginRequestHandler;
 import com.lzx.BBChat.ServerService.ClientRegistrationRequestHandler.ClientRegistrationRequestHandler;
 import com.lzx.BBChat.ServerService.LogPrinter.LogPrinter;
+import com.lzx.BBChat.ServerService.UserCheckMessageInBoxHandler.UserCheckMessageInBoxHandler;
+import com.lzx.BBChat.ServerService.UserCheckPeopleOnlineRequestHandler.UserCheckPeopleOnlineRequestHandler;
 import com.lzx.BBChat.ServerService.UserPrivateChatRequestHandler.UserPrivateChatRequestHandler;
 
 import java.io.IOException;
@@ -63,7 +65,11 @@ public class ClientHandler implements Runnable {
                     //该消息是群聊请求
 
 
-                } else if (message.getMesType().equals(MessageType.MESSAGE_EXIT)) {
+                } else if(message.getMesType().equals(MessageType.MESSAGE_USER_CHECK_MESSAGE_INBOX_REQUEST)){
+                    //用户请求查看信箱
+                    UserCheckMessageInBoxHandler.handlerUserCheckMessageInBox(server, message.getSender(),oos,ois);
+                    //服务器处理完查看信箱请求 -》继续响应其他请求-》等待客户端发送Message
+                }else if (message.getMesType().equals(MessageType.MESSAGE_EXIT)) {
                     //该消息是用户关闭软件请求
                     //关闭流
                     oos.close();
@@ -71,11 +77,21 @@ public class ClientHandler implements Runnable {
                     //结束线程
                     LogPrinter.printLog(" 用户 " + clientSocket.getInetAddress().getHostAddress() + " 断开了与服务器的连接");
                     return;
+                }else if(message.getMesType().equals(MessageType.MESSAGE_USER_CHECK_ONLINE_PEOPLE_REQUEST)){
+                    //该消息是用户拉取在线人员情况请求
+                    UserCheckPeopleOnlineRequestHandler.handleUserCheckPeopleOnlineRequest(server, message.getSender(), oos,ois);
+                    //服务器处理完查看在线用户请求 -》继续响应其他请求-》等待客户端发送Message
+
+                }else if (message.getMesType().equals(MessageType.MESSAGE_USER_OFFLINE_REQUEST)) {
+                    //用户下线通知
+                    //踢出online列表
+                    server.getUserOnline().remove(message.getSender());
+                    LogPrinter.printLog(message.getSender() + "离线了.。。。。");
                 }
             }
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LogPrinter.printLog(clientSocket.getInetAddress().getHostAddress() + " 断开了连接 ");
         } catch (ClassNotFoundException e) {
             LogPrinter.printLog("发送的数据不是Message！");
             throw new RuntimeException(e);

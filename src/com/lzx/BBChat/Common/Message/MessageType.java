@@ -87,4 +87,35 @@ public class MessageType {
 
     //群聊退出
     public static String MESSAGE_GROUP_CHAT_EXIT = "MESSAGE_GROUP_CHAT_EXIT";
+
+    //私聊发送消息成功
+    public static String MESSAGE_PRIVATE_CHAT_SEND_SUCCEED = "MESSAGE_PRIVATE_CHAT_SEND_SUCCEED";
+
+    //私聊发送消息失败
+    public static String MESSAGE_PRIVATE_CHAT_SEND_FAILED = "MESSAGE_PRIVATE_CHAT_SEND_FAILED";
+
+    //群聊发送消息成功
+    public static String MESSAGE_GROUP_CHAT_SEND_FAILED = "MESSAGE_GROUP_CHAT_SEND_FAILED";
+
+    //群聊发送消息失败
+    public static String MESSAGE_GROUP_CHAT_SEND_SUCCEED = "MESSAGE_GROUP_CHAT_SEND_SUCCEED";
+
+    //用户查看收件箱请求
+    public static String MESSAGE_USER_CHECK_MESSAGE_INBOX_REQUEST ="MESSAGE_USER_CHECK_MESSAGE_INBOX_REQUEST";
+
+    //服务器允许查看收件箱
+    public static String MESSAGE_ALLOW_USER_CHECK_MESSAGE_INBOX_REQUEST ="MESSAGE_ALLOW_USER_CHECK_MESSAGE_INBOX_REQUEST";
+
+    //客户端请求离线操作
+    public static String MESSAGE_USER_OFFLINE_REQUEST = "MESSAGE_USER_OFFLINE_REQUEST";
+
+    //用户请求查看在线人数
+    public static String MESSAGE_USER_CHECK_ONLINE_PEOPLE_REQUEST = "MESSAGE_USER_CHECK_ONLINE_PEOPLE_REQUEST";
+
+    //服务器同意用户查看在线人数请求
+    public static String MESSAGE_ALLOW_USER_CHECK_ONLINE_PEOPLE_REQUEST = "MESSAGE_ALLOW_USER_CHECK_ONLINE_PEOPLE_REQUEST";
+
+
+
+
 }

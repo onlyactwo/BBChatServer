@@ -1,5 +1,6 @@
 package com.lzx.BBChat.Server;
 
+import com.lzx.BBChat.Common.Message.MessageInBox;
 import com.lzx.BBChat.Common.User.User;
 import com.lzx.BBChat.Common.Utils.Utils;
 import com.lzx.BBChat.ServerService.ClientHandler.ClientHandler;
@@ -34,15 +35,18 @@ import java.util.HashMap;
  * 3.
  */
 public class Server {
-    private static HashMap<String, String> userDatabase;
-    private static HashMap<String, String> managerDatabase;
+    private static HashMap<String, String> userDatabase;//用于保存普通用户账号密码
+    private static HashMap<String, String> managerDatabase;//用于保存管理人员账号密码
     private static HashMap<String, User> userOnline;
+    private static HashMap<String, MessageInBox>userMessageInBox;//用于维护用户的信箱
     private static final int ServerPort = 9999;
 
     public void startServer() {
         try {
             //初始化在线列表
             userOnline = new HashMap<>();
+            //初始化 用户信箱
+            userMessageInBox = new HashMap<>();
 
             //把用户数据加载到服务器中
             userDatabase = ServerInit.ServerInitUserDatabase();
@@ -54,7 +58,6 @@ public class Server {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             LogPrinter.printLog("数据库导入失败！");
             System.exit(1);
         }
@@ -123,5 +126,13 @@ public class Server {
 
     public void setUserOnline(HashMap<String, User> userOnline) {
         Server.userOnline = userOnline;
+    }
+
+    public HashMap<String, MessageInBox> getUserMessageInBox() {
+        return userMessageInBox;
+    }
+
+    public  void setUserMessageInBox(HashMap<String, MessageInBox> userMessageInBox) {
+        Server.userMessageInBox = userMessageInBox;
     }
 }

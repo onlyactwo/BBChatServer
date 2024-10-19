@@ -49,7 +49,10 @@ public class CheckServer extends Thread {
                     break;
                 case "\\getUserOnline":
                     //获取所有在线用户信息
-                    LogPrinter.printLog((server.getUserOnline()).values().toString());
+                    System.out.println("==========在线用户========");
+                    for(String userName : server.getUserOnline().keySet()){
+                        LogPrinter.printLog(userName);
+                    }
                     break;
                 case"\\shutDownServer":
                     //关闭服务器 ---- 保存数据到本地 ---- userDatabase

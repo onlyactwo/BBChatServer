@@ -5,6 +5,7 @@ import com.lzx.BBChat.Common.Message.MessageType;
 import com.lzx.BBChat.Common.User.User;
 import com.lzx.BBChat.Common.Utils.Utils;
 import com.lzx.BBChat.Server.Server;
+import com.lzx.BBChat.ServerService.UserOfflinePrivateChatHandler.UserOfflinePrivateChatHandler;
 import com.lzx.BBChat.ServerService.UserOnlinePrivateChatHandler.UserOnlinePrivateChatHandler;
 
 import java.io.IOException;
@@ -45,8 +46,8 @@ public class UserPrivateChatRequestHandler {
             //只有Server.Online里面才有以上信息
             User targetUser = (User) ois.readObject();
 
-            if(!server.getUserDatabase().containsKey(targetUser.getUserName())){
-                //该用户不存在,返回服务器验证结果
+            if(!server.getUserDatabase().containsKey(targetUser.getUserName())&&!server.getManagerDatabase().containsKey(targetUser.getUserName())){
+                //该用户不存在于普通用户数据库和管理员数据库,返回服务器验证结果
                 //创建 该用户不存在结果 Message
                 Message message_private_user_is_not_exist = new Message("Server", userName, "目标用户不存在", Utils.getCurrentTime(), MessageType.MESSAGE_PRIVATE_USER_IS_NOT_EXIST);
                 //发送该Message
@@ -56,7 +57,7 @@ public class UserPrivateChatRequestHandler {
                 return;
             }else if(server.getUserOnline().containsKey(targetUser.getUserName())){
                 //用户在线
-                //创建 该用户在线结果 Message
+                //创建 该用户在线结果的Message
                 Message message_private_user_online = new Message("Server", userName, "目标用户在线", Utils.getCurrentTime(), MessageType.MESSAGE_PRIVATE_USER_ONLINE);
                 //发送该Message
                 oos.writeObject(message_private_user_online);
@@ -64,7 +65,7 @@ public class UserPrivateChatRequestHandler {
 
                 //开启在线聊天功能
                 //传递参数，包括server（用于得到Online），userName(发送者),targetName（接收者，用这个名字在Online中去得到User）
-                UserOnlinePrivateChatHandler.handleUserOnlinePrivateChat(server,userName,targetUser.getUserName(),ois);
+                UserOnlinePrivateChatHandler.handleUserOnlinePrivateChat(server,userName,targetUser.getUserName(),oos,ois);
                 //调用结束聊天功能以后，服务器返回等待响应状态,客户端返回到选择功能界面
                 return;
             }else {
@@ -75,8 +76,9 @@ public class UserPrivateChatRequestHandler {
                 oos.writeObject(message_private_user_offline);
                 oos.flush();
 
+                //
                 //开启离线聊天功能
-                //代写。。。。。
+                UserOfflinePrivateChatHandler.handleUserOfflinePrivateChat(server,userName, targetUser.getUserName(), oos,ois);
 
             }
 

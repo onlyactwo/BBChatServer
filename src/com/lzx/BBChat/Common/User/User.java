@@ -26,16 +26,15 @@ public class User implements Serializable {
     public static final String IDENTITY_NORMAL = "IDENTITY_NORMAL";
     public static final String IDENTITY_MANAGER = "IDENTITY_MANAGER";
 
-    public User() {
-    }
+    public User() {}
 
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
 
-    @Override
-    public String toString() {
+   /* @Override*/
+   /* public String toString() {
         if (identity.equals("IDENTITY_NORMAL")) {
             //普通用户
             return "普通用户" + userName;
@@ -44,7 +43,7 @@ public class User implements Serializable {
             return "管理人员" + userName;
         }
         return "用户未知";
-    }
+    }*/
 
     public String getUserName() {
         return userName;
@@ -93,4 +92,5 @@ public class User implements Serializable {
     public void setOis(ObjectInputStream ois) {
         this.ois = ois;
     }
+
 }

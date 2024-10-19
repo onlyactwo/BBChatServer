@@ -1,6 +1,7 @@
 package com.lzx.BBChat.ServerService.ClientLoginRequestHandler;
 
 import com.lzx.BBChat.Common.Message.Message;
+import com.lzx.BBChat.Common.Message.MessageInBox;
 import com.lzx.BBChat.Common.Message.MessageType;
 import com.lzx.BBChat.Common.User.User;
 import com.lzx.BBChat.Common.Utils.Utils;
@@ -70,6 +71,11 @@ public class ClientLoginRequestHandler {
                     server.getUserOnline().put(user.getUserName(),user);
                     LogPrinter.printLog("检测到普通用户  ： " + user.getUserName() + "登录，已添加到在线列表!");
 
+                    //维护该用户的信箱
+                    //把该用户添加到维护信箱的列表中(不存在的话)
+                    if(!server.getUserMessageInBox().containsKey(user.getUserName())) {
+                        server.getUserMessageInBox().put(user.getUserName(), new MessageInBox());
+                    }
 
                     //定义Message，密码正确，登录成功
                     Message message_login_succeed = new Message("Server", "Client", "登录成功！", Utils.getCurrentTime(), MessageType.MESSAGE_LOGIN_SUCCEED_NORMAL_USER);
@@ -100,6 +106,12 @@ public class ClientLoginRequestHandler {
                     //将该用户添加到Online
                     server.getUserOnline().put(user.getUserName(),user);
                     LogPrinter.printLog("检测到管理人员  ： " + user.getUserName() + "登录，已添加到在线列表!");
+
+                    //维护该用户的信箱
+                    //把该用户添加到维护信箱的列表中(不存在的话)
+                    if(!server.getUserMessageInBox().containsKey(user.getUserName())) {
+                        server.getUserMessageInBox().put(user.getUserName(), new MessageInBox());
+                    }
 
                     //定义Message，密码正确，登录成功
                     Message message_login_succeed = new Message("Server", "Client", "登录成功！", Utils.getCurrentTime(), MessageType.MESSAGE_LOGIN_SUCCEED_MANAGER);
